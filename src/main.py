@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
-from src.api import transcribe
+from src.api import transcribe, meeting
 from src.model.load_model import ModelLoader
 
 
@@ -53,3 +53,4 @@ async def block_malicious_requests(request: Request, call_next):
 
 
 app.include_router(transcribe.router)
+app.include_router(meeting.router)

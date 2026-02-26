@@ -1,4 +1,4 @@
-whisperx
+whisperx==3.8.1
 langchain
 langchain-community 
 fastapi
@@ -12,3 +12,4 @@ faiss-cpu
 langchain-ollama
 langgraph-cli[inmem]
 sentence-transformers
+python-multipart
