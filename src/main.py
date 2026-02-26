@@ -1,14 +1,28 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from contextlib import asynccontextmanager
+from src.api import transcribe
+from src.model.load_model import ModelLoader
 
-from src.api import chat, stream, home
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Loading AI models...")
+    app.state.model_loader = ModelLoader(
+        device="cpu", batch_size=16, compute_type="int8"
+    )
+    print("Models loaded.")
+    yield
+    print("Shutting down...")
+
+
+app = FastAPI(lifespan=lifespan)
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8000", "http://127.0.0.1:8000"],
+    allow_origins=["http://localhost:8080", "http://127.0.0.1:8080"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
@@ -38,6 +52,4 @@ async def block_malicious_requests(request: Request, call_next):
         )
 
 
-app.include_router(chat.router)
-app.include_router(stream.router)
-app.include_router(home.router)
+app.include_router(transcribe.router)
