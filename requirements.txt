@@ -1,0 +1,14 @@
+whisperx
+langchain
+langchain-community 
+fastapi
+langchain-google-genai
+python-dotenv
+langgraph
+uvicorn[standard]
+langsmith
+huggingface_hub[hf_xet]
+faiss-cpu
+langchain-ollama
+langgraph-cli[inmem]
+sentence-transformers
